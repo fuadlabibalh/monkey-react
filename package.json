@@ -1,0 +1,53 @@
+{
+  "name": "monkey-react",
+  "version": "1.1.0",
+  "description": "A powerful yet simple React library designed to make responsive can adapt seamlessly to any device, providing a smooth, consistent user experience.",
+  "author": "fuadlabibalh",
+  "license": "MIT",
+  "keywords": [
+    "react-responsive",
+    "react-component",
+    "responsive-design",
+    "css-generator",
+    "react",
+    "responsive",
+    "latest"
+  ],
+  "main": "./dist/cjs/index.js",
+  "module": "./dist/esm/index.js",
+  "types": "./dist/cjs/index.d.ts",
+  "exports": {
+    ".": {
+      "require": "./dist/cjs/index.js",
+      "import": "./dist/esm/index.js"
+    },
+    "./router": {
+      "require": "./dist/cjs/router/index.js",
+      "import": "./dist/esm/router/index.js"
+    }
+  },
+  
+  "scripts": {
+    "build:cjs": "rm -rf ./dist && tsc --outDir ./dist/cjs --module commonjs --declarationDir ./dist/cjs",
+    "build:esm": "rm -rf ./dist && tsc --outDir ./dist/esm --module esnext --declarationDir ./dist/esm",
+    "build": "npm run build:cjs && npm run build:esm"
+  },
+  "devDependencies": {
+    "@types/react": "^18.1.1",
+    "@types/react-dom": "^18.1.1",
+    "react": "^18.1.1",
+    "react-dom": "^18.1.1",
+    "react-router-dom": "^7.0.2",
+    "typescript": "^5.1.1"
+  },
+  "peerDependencies": {
+    "react": "^18.1.1",
+    "react-dom": "^18.1.1",
+    "react-router-dom": "^7.0.2",
+    "typescript": "^5.6.3"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/fuadlabibalh/monkey-react.git"
+  }
+}
