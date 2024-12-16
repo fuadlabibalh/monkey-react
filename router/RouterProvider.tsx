@@ -1,6 +1,6 @@
 import { getBasename2, roleOrLevelCallback } from "./security/authorization/permitRouter";
 import { ReactNode } from "react";
-import { RouteObject } from "react-router-dom";
+import { RouteObject, HashRouter } from "react-router-dom";
 import {
 	BrowserRouter,
 	Route,
@@ -65,3 +65,17 @@ function RouterProvider({
 }
 
 export default RouterProvider;
+
+export const BrowserRouterProvider = RouterProvider
+
+export function HashRouterProvider({
+	routers,
+	isPermit,
+	levelOrRole,
+}: RouterProviderProps) {
+	return (
+		<HashRouter>
+			<Routes>{generateBaseRoutes(getBasename2(routers, isPermit, levelOrRole) as MainRouters[])}</Routes>
+		</HashRouter>
+	);
+}

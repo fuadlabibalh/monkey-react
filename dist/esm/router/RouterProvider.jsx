@@ -1,4 +1,5 @@
 import { getBasename2 } from "./security/authorization/permitRouter";
+import { HashRouter } from "react-router-dom";
 import { BrowserRouter, Route, Routes, } from "react-router-dom";
 function generateBaseRoutes(listRouter) {
     return listRouter.map((e, idx) => {
@@ -16,3 +17,9 @@ function RouterProvider({ routers, isPermit, levelOrRole, }) {
 		</BrowserRouter>);
 }
 export default RouterProvider;
+export const BrowserRouterProvider = RouterProvider;
+export function HashRouterProvider({ routers, isPermit, levelOrRole, }) {
+    return (<HashRouter>
+			<Routes>{generateBaseRoutes(getBasename2(routers, isPermit, levelOrRole))}</Routes>
+		</HashRouter>);
+}

@@ -29,3 +29,5 @@ export interface RouterProviderProps extends React.HTMLAttributes<HTMLDivElement
 }
 declare function RouterProvider({ routers, isPermit, levelOrRole, }: RouterProviderProps): import("react").JSX.Element;
 export default RouterProvider;
+export declare const BrowserRouterProvider: typeof RouterProvider;
+export declare function HashRouterProvider({ routers, isPermit, levelOrRole, }: RouterProviderProps): import("react").JSX.Element;
