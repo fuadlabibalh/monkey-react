@@ -28,12 +28,14 @@ export interface MainRouters {
 
 function generateBaseRoutes(listRouter: MainRouters[]) {
 	return listRouter.map((e: MainRouters, idx: number) => {
-		if (e?.children!)
+		if (e?.children!) {
+			let eProps = e as unknown
 			return (
-				<Route {...(e as RouterProps)} key={"r" + idx}>
+				<Route {...(eProps as RouterProps)} key={"r" + idx}>
 					{generateBaseRoutes(e.children as MainRouters[])}
 				</Route>
 			);
+		}
 		else return <Route {...(e as RouteProps)} key={"r" + idx} />;
 	});
 }

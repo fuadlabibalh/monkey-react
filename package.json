@@ -1,6 +1,6 @@
 {
   "name": "monkey-react",
-  "version": "1.2.0",
+  "version": "1.2.2",
   "description": "A powerful yet simple React library designed to make responsive can adapt seamlessly to any device, providing a smooth, consistent user experience.",
   "author": "fuadlabibalh",
   "license": "MIT",
@@ -26,25 +26,29 @@
       "import": "./dist/esm/router/index.js"
     }
   },
-  
   "scripts": {
-    "build:cjs": "rm -rf ./dist && tsc --outDir ./dist/cjs --module commonjs --declarationDir ./dist/cjs",
-    "build:esm": "rm -rf ./dist && tsc --outDir ./dist/esm --module esnext --declarationDir ./dist/esm",
+    "dev": "vite ",
+    "build:cjs": "tsc -p tsconfig.cjs.json",
+    "build:esm": "tsc -p tsconfig.esm.json",
     "build": "npm run build:cjs && npm run build:esm"
   },
   "devDependencies": {
-    "@types/react": "^18.1.1",
-    "@types/react-dom": "^18.1.1",
-    "react": "^18.1.1",
-    "react-dom": "^18.1.1",
-    "react-router-dom": "^7.0.2",
-    "typescript": "^5.1.1"
-  },
-  "peerDependencies": {
-    "react": "^18.1.1",
-    "react-dom": "^18.1.1",
-    "react-router-dom": "^7.0.2",
-    "typescript": "^5.6.3"
+    "@eslint/js": "^9.15.0",
+    "@types/node": "^22.10.2",
+    "@types/react": "^18.3.17",
+    "@types/react-dom": "^18.3.5",
+    "@vitejs/plugin-react-swc": "^3.5.0",
+    "eslint": "^9.15.0",
+    "eslint-plugin-react-hooks": "^5.0.0",
+    "eslint-plugin-react-refresh": "^0.4.14",
+    "global": "^4.4.0",
+    "globals": "^15.12.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-router-dom": "^6.28.0",
+    "typescript": "^5.1.1",
+    "typescript-eslint": "^8.15.0",
+    "vite": "^6.0.3"
   },
   "repository": {
     "type": "git",
