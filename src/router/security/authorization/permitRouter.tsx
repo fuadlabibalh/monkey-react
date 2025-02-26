@@ -176,14 +176,14 @@ export function getBasename2(
 	let idxPath = baserouters?.index ? `/*` : `/${baserouters?.basename}/*`
 	let notFoundRoute = getNotFoundRoute(result, idxPath, baserouters)
 	//create element if notfound with default route define "*" or when not define navigate to index element
-	checkinRouterDef && !isPermit &&
+	if(checkinRouterDef && !isPermit) {
 		result.push({
 			path: routePath,
 			element: (
 				<Navigate to={baserouters?.index ? `/${baserouters?.authPath!}` : `/${baserouters?.basename}/${baserouters?.authPath!}`} />
 			),
 		} as RouterObjects);
-
+	}
 	!checkinRouterDef &&
 		result.push({
 			path: routePath,
@@ -197,7 +197,6 @@ export function getBasename2(
 		);
 	if (basename && !result.length)
 		console.warn(`router path [/${basename}] not found`);
-
 	return result;
 }
 
@@ -208,8 +207,14 @@ function getBaseRouter(routers: BasenameRouter[], basename: string) {
 	if (basename!! && basename === baseRouterNonIndex?.basename) {
 		baserouters = baseRouterNonIndex
 	}
-
 	return baserouters
+}
+
+function getBasenamePath( baserouters: BasenameRouter, el: RouterObjects ) {
+	if(baserouters?.index){
+		return `/${el.path ? el?.path : ""}`
+	}
+	return `/${baserouters?.basename}${el?.path ? `/${el?.path}`: ""}`
 }
 
 function remapRouterBase(baserouters?: BasenameRouter, isPermit?: boolean, levelOrLevel?: roleOrLevelCallback) {
@@ -217,10 +222,9 @@ function remapRouterBase(baserouters?: BasenameRouter, isPermit?: boolean, level
 	let result: RouterObjects[] = [];
 	for (let i = 0; i < tempRouters?.length; i++) {
 		let el = tempRouters[i];
-
 		let temp: RouterObjects = {
 			...el,
-			path: baserouters?.index ? `/${el.path ? el?.path : ""}` : `/${baserouters?.basename}/${el?.path}`,
+			path: getBasenamePath(baserouters, el),
 			...(!el.permit ? { permit: false } : { permit: el?.permit }),
 		};
 		// create default navigation when permit is false with matching with field permit & create index router
