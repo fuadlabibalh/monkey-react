@@ -1,5 +1,5 @@
-import { getBasename2, roleOrLevelCallback } from "./security/authorization/permitRouter";
-import { ReactNode } from "react";
+import { getBaseRouters, roleOrLevelCallback } from "./security/authorization/permitRouter";
+import { ReactNode, useMemo } from "react";
 import { RouteObject, HashRouter } from "react-router-dom";
 import {
 	BrowserRouter,
@@ -44,6 +44,7 @@ export interface BasenameRouter {
 	basename: string;
 	index?: boolean;
 	authPath?: string;
+	layout?: React.ComponentType<{ children: React.ReactNode }>;
 	routers?: RouterObjects[];
 }
 
@@ -51,6 +52,7 @@ export interface RouterProviderProps extends React.HTMLAttributes<HTMLDivElement
 	routers: BasenameRouter[];
 	isPermit: boolean;
 	defaultPath?: string;
+	layout?: React.ComponentType<{ children: React.ReactNode }>;
 	levelOrRole?: roleOrLevelCallback
 }
 
@@ -59,13 +61,24 @@ function RouterProvider({
 	isPermit,
 	levelOrRole,
 }: RouterProviderProps) {
-	return (
+	const { layout: Layout, routers: baserouters } = useMemo(() => getBaseRouters(routers, isPermit, levelOrRole), [routers, isPermit])
+	return Layout!! ? (
+		<Layout>
+			<BrowserRouter>
+				<Routes>
+					{generateBaseRoutes(baserouters as MainRouters[])}
+				</Routes>
+			</BrowserRouter>
+		</Layout>
+	) : (
 		<BrowserRouter>
-			<Routes>{generateBaseRoutes(getBasename2(routers, isPermit, levelOrRole) as MainRouters[])}</Routes>
+			<Routes>
+				{generateBaseRoutes(baserouters as MainRouters[])}
+			</Routes>
 		</BrowserRouter>
-	);
-}
+	)
 
+}
 export default RouterProvider;
 
 export const BrowserRouterProvider = RouterProvider
@@ -75,9 +88,18 @@ export function HashRouterProvider({
 	isPermit,
 	levelOrRole,
 }: RouterProviderProps) {
+	const { layout: Layout, routers: baserouters } = useMemo(() => getBaseRouters(routers, isPermit, levelOrRole), [routers, isPermit])
 	return (
 		<HashRouter>
-			<Routes>{generateBaseRoutes(getBasename2(routers, isPermit, levelOrRole) as MainRouters[])}</Routes>
+			<Routes>
+				{
+					Layout!! ? (
+						<Layout>
+							{generateBaseRoutes(baserouters as MainRouters[])}
+						</Layout>
+					) : generateBaseRoutes(baserouters as MainRouters[])
+				}
+			</Routes>
 		</HashRouter>
 	);
 }

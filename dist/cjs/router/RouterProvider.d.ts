@@ -19,16 +19,22 @@ export interface BasenameRouter {
     basename: string;
     index?: boolean;
     authPath?: string;
+    layout?: React.ComponentType<{
+        children: React.ReactNode;
+    }>;
     routers?: RouterObjects[];
 }
 export interface RouterProviderProps extends React.HTMLAttributes<HTMLDivElement> {
     routers: BasenameRouter[];
     isPermit: boolean;
     defaultPath?: string;
+    layout?: React.ComponentType<{
+        children: React.ReactNode;
+    }>;
     levelOrRole?: roleOrLevelCallback;
 }
-declare function RouterProvider({ routers, isPermit, levelOrRole, }: RouterProviderProps): import("react").JSX.Element;
+declare function RouterProvider({ routers, isPermit, levelOrRole, }: RouterProviderProps): import("react/jsx-runtime").JSX.Element;
 export default RouterProvider;
 export declare const BrowserRouterProvider: typeof RouterProvider;
-export declare function HashRouterProvider({ routers, isPermit, levelOrRole, }: RouterProviderProps): import("react").JSX.Element;
+export declare function HashRouterProvider({ routers, isPermit, levelOrRole, }: RouterProviderProps): import("react/jsx-runtime").JSX.Element;
 //# sourceMappingURL=RouterProvider.d.ts.map

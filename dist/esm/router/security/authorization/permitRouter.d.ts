@@ -12,4 +12,12 @@ export interface roleOrLevelCallback {
     (child: RouterObjects): boolean;
 }
 export declare function getBasename(routers: BasenameRouter[], isPermit?: boolean, levelOrLevel?: roleOrLevelCallback): RouterObjects[];
-export declare function getBasename2(routers: BasenameRouter[], isPermit?: boolean, levelOrLevel?: roleOrLevelCallback): RouterObjects[];
+interface BaseRouter {
+    routers: RouterObjects[];
+    layout?: React.ComponentType<{
+        children: React.ReactNode;
+    }>;
+}
+export declare function getBaseRouters(routers: BasenameRouter[], isPermit?: boolean, levelOrLevel?: roleOrLevelCallback): BaseRouter;
+export {};
+//# sourceMappingURL=permitRouter.d.ts.map

@@ -87,7 +87,7 @@ createRoot(document.getElementById('root')!).render(
 			routers: [
 				{
 					index: true,
-					element: <div>test</div>
+          element: <div>tes</div>,
 				},
 				{
 					path: "dashboards/*",
@@ -140,7 +140,7 @@ createRoot(document.getElementById('root')!).render(
 					element: <>login</>,
 				},
 				{
-					path: "/*",
+					path: "*",
 					element: (
 						<div
 							style={{
@@ -160,7 +160,7 @@ createRoot(document.getElementById('root')!).render(
 			],
 		}
 	]}
-      isPermit={true}
+      isPermit={false}
       levelOrRole={(e) => true}
       
     />

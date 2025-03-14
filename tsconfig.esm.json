@@ -1,27 +1,9 @@
 {
 	"extends": "./tsconfig.json",
 	"compilerOptions": {
-		"target": "ES2020", // Menentukan target JavaScript yang dihasilkan (ES2020)
-		"module": "ESNext", // Output dalam format ES Modules
-		"moduleResolution": "node", // Menggunakan resolusi modul Node.js
-		//   "esModuleInterop": true,       // Mengaktifkan kompatibilitas dengan ES Modules
-		//   "strict": true,                // Mengaktifkan pemeriksaan ketat (type-checking)
-		//   "declaration": true,           // Menyertakan file deklarasi (.d.ts)
-		//   "declarationMap": true,        // Menyertakan peta untuk file deklarasi
-		"skipLibCheck": true, // Mengabaikan pemeriksaan jenis di file definisi pustaka
-		//   "allowJs": true,               // Mengizinkan file JavaScript di dalam proyek
-		"outDir": "./dist/esm",
-		"declaration": true, /* Generate .d.ts files from TypeScript and JavaScript files in your project. */ /* Include sourcemap files inside the emitted JavaScript. */
-		"noEmit": true,
-		"declarationDir": "./dist/esm/types", // Menyimpan hasil kompilasi ke folder `dist/esm`
-		"rootDir": "./src", // Menentukan direktori root untuk source code
-		//   "sourceMap": true,             // Menghasilkan file source maps untuk debugging
-		"lib": ["es5", "es6", "dom"], // Menentukan pustaka (library) yang digunakan, di sini menggunakan ES2020
-	},
-	"include": [
-		"src/**/*" // Menyertakan semua file di dalam folder `src`
-	],
-	"exclude": [
-		"node_modules" // Mengecualikan folder `node_modules`
-	]
-}
+	  "module": "NodeNext",
+	  "outDir": "dist/esm",
+	//   "emitDeclarationOnly": true
+	}
+  }
+  

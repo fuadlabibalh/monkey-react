@@ -1,27 +1,7 @@
 {
-    "extends": "./tsconfig.json",
-    "compilerOptions": {
-      "target": "ES2020",            // Menentukan target JavaScript yang dihasilkan (ES2020)
-      "module": "commonjs",          // Output dalam format CommonJS
-      "moduleResolution": "node",    // Menggunakan resolusi modul Node.js
-    //   "esModuleInterop": true,       // Mengaktifkan kompatibilitas dengan ES Modules
-    //   "strict": true,                // Mengaktifkan pemeriksaan ketat (type-checking)
-    //   "declaration": true,           // Menyertakan file deklarasi (.d.ts)
-    //   "declarationMap": true,        // Menyertakan peta untuk file deklarasi
-    //   "skipLibCheck": true,          // Mengabaikan pemeriksaan jenis di file definisi pustaka
-    //   "allowJs": true,               // Mengizinkan file JavaScript di dalam proyek
-      "outDir": "./dist/cjs",        // Menyimpan hasil kompilasi ke folder `dist/cjs`
-      "rootDir": "./src", 
-    "declarationDir": "./dist/cjs/types",     
-    "lib": ["es5", "es6", "dom"],                      /* Specify the output directory for generated declaration files. */
-                 // Menentukan direktori root untuk source code
-    //   "sourceMap": true              // Menghasilkan file source maps untuk debugging
-    },
-    "include": [
-      "src/**/*"                     // Menyertakan semua file di dalam folder `src`
-    ],
-    "exclude": [
-      "node_modules"                 // Mengecualikan folder `node_modules`
-    ]
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "module": "CommonJS",
+    "outDir": "dist/cjs"
   }
-  
+}

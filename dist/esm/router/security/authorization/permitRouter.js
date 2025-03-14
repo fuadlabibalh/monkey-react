@@ -1,6 +1,10 @@
-import { jsx as _jsx } from "react/jsx-runtime";
-import { Navigate } from "react-router-dom";
-export function getBasename(routers, isPermit, levelOrLevel) {
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.getBasename = getBasename;
+exports.getBaseRouters = getBaseRouters;
+const jsx_runtime_1 = require("react/jsx-runtime");
+const react_router_dom_1 = require("react-router-dom");
+function getBasename(routers, isPermit, levelOrLevel) {
     // checking cannot use char "/" for define default path
     // check browser location for get sub path and matching with basename
     let [_, basename] = window.location.pathname?.split("/");
@@ -35,7 +39,7 @@ export function getBasename(routers, isPermit, levelOrLevel) {
             typeEl?.type?.name === "Navigate") {
             temp = {
                 index: true,
-                element: (_jsx(Navigate, { to: `/${baserouters?.basename}/${baserouters?.authPath}` })),
+                element: ((0, jsx_runtime_1.jsx)(react_router_dom_1.Navigate, { to: `/${baserouters?.basename}/${baserouters?.authPath}` })),
             };
             result.push({ ...temp });
         }
@@ -72,12 +76,12 @@ export function getBasename(routers, isPermit, levelOrLevel) {
         return routePath.includes(temp);
     })[0];
     // cehck default "*" router define to global not found
-    let notFoundRoute = result.find((e) => e.path === `/${baserouters?.basename}/*`)?.element || (_jsx(Navigate, { to: `/${baserouters?.basename}/${baserouters?.authPath}` }));
+    let notFoundRoute = result.find((e) => e.path === `/${baserouters?.basename}/*`)?.element || ((0, jsx_runtime_1.jsx)(react_router_dom_1.Navigate, { to: `/${baserouters?.basename}/${baserouters?.authPath}` }));
     //create element if notfound with default route define "*" or when not define navigate to index element
     checkinRouterDef && !isPermit &&
         result.push({
             path: routePath,
-            element: (_jsx(Navigate, { to: `/${baserouters?.basename}/${baserouters?.authPath}` })),
+            element: ((0, jsx_runtime_1.jsx)(react_router_dom_1.Navigate, { to: `/${baserouters?.basename}/${baserouters?.authPath}` })),
         });
     !checkinRouterDef &&
         result.push({
@@ -101,98 +105,73 @@ const filterLevelOrRole = (route, levelOrLevel) => {
     });
     return temp;
 };
-export function getBasename2(routers, isPermit, levelOrLevel) {
-    // checking cannot use char "/" for define default path
-    let [_, basename] = window.location.pathname?.split("/");
-    // check browser location for get sub path and matching with basename
-    let baserouters = getBaseRouter(routers, basename);
-    let tempRouters = baserouters?.routers;
-    if (!isPermit && !baserouters?.authPath) {
-        console.warn("isPermit set to[true] value if no Permission or auth router / define authPath in baserouter when router isdefine");
-        return [];
+function getBaseRouters(routers, isPermit, levelOrLevel) {
+    let pathname = window.location.pathname;
+    const [, prefix] = pathname.split("/");
+    // select basename router
+    let findRouter = getBaseRouterWithPrefix(prefix, routers);
+    if (!findRouter) {
+        return { routers: [] };
     }
-    // remap router with basename prefix like "/v2"+"/path or if index "/path"
-    let result = remapRouterBase(baserouters, isPermit, levelOrLevel);
-    // create default navigation when not found router or navigate to default not found router if any define path "[*]"
-    let routePath = window.location.pathname;
-    // check router is define router return to navigate to index
-    let checkinRouterDef = tempRouters.filter((e) => {
-        let temp = e.path?.split("/")[0];
-        return routePath.includes(temp);
-    })[0];
-    // cehck default "*" router define to global not found
-    let idxPath = baserouters?.index ? `/*` : `/${baserouters?.basename}/*`;
-    let notFoundRoute = getNotFoundRoute(result, idxPath, baserouters);
-    //create element if notfound with default route define "*" or when not define navigate to index element
-    checkinRouterDef && !isPermit &&
-        result.push({
-            path: routePath,
-            element: (_jsx(Navigate, { to: baserouters?.index ? `/${baserouters?.authPath}` : `/${baserouters?.basename}/${baserouters?.authPath}` })),
-        });
-    !checkinRouterDef &&
-        result.push({
-            path: routePath,
-            element: notFoundRoute,
-        });
-    // warning any wrong define params or etc.
-    if (!basename && !result?.length)
-        console.warn(`[getBasename]: basename must be define "index=true" or default path must be define with basename`);
-    if (basename && !result.length)
-        console.warn(`router path [/${basename}] not found`);
-    return result;
-}
-function getBaseRouter(routers, basename) {
-    let baserouters = routers.find((e) => e.index === true);
-    let baseRouterNonIndex = routers.find((e) => e.basename === basename);
-    if (basename && basename === baseRouterNonIndex?.basename) {
-        baserouters = baseRouterNonIndex;
-    }
-    return baserouters;
-}
-function remapRouterBase(baserouters, isPermit, levelOrLevel) {
-    let tempRouters = baserouters?.routers;
-    let result = [];
-    for (let i = 0; i < tempRouters?.length; i++) {
-        let el = tempRouters[i];
-        let temp = {
-            ...el,
-            path: baserouters?.index ? `/${el.path ? el?.path : ""}` : `/${baserouters?.basename}/${el?.path}`,
-            ...(!el.permit ? { permit: false } : { permit: el?.permit }),
-        };
-        // create default navigation when permit is false with matching with field permit & create index router
-        let typeEl = temp?.element?.valueOf();
-        if (!isPermit &&
-            !temp?.permit &&
-            temp?.index &&
-            typeEl?.type?.name === "Navigate") {
-            temp = {
-                index: true,
-                element: (_jsx(Navigate, { to: baserouters?.index ? `/${baserouters?.authPath}` : `/${baserouters?.basename}/${baserouters?.authPath}` })),
-            };
-            result.push({ ...temp });
-        }
-        // add all router without permit
-        else if (!isPermit && !temp?.permit) {
-            result.push({ ...temp });
-        }
-        // add all router if permit is true
-        if (isPermit) {
-            if (temp?.permit &&
-                typeof levelOrLevel === "function" &&
-                Array.isArray(temp.children) &&
-                !temp.index) {
-                let child = [
-                    temp.children?.find((e) => e?.index === true),
-                ];
-                let filter = filterLevelOrRole(temp?.children, levelOrLevel);
-                child = [child[0], ...filter];
-                temp.children = child;
+    let result = findRouter?.routers || [];
+    result = result.map((e) => {
+        if (!e?.permit)
+            e.permit = false;
+        return e;
+    });
+    // navigate to auth when permit router true and isPermit false
+    if (!isPermit) {
+        result = result.map((e) => {
+            // permit without prefix
+            if (e.permit && findRouter.basename !== prefix) {
+                e = { ...e, permit: false, element: (0, jsx_runtime_1.jsx)(react_router_dom_1.Navigate, { to: "/" + findRouter?.authPath || "" }) };
             }
-            result.push({ ...temp });
+            // permit with prefix
+            else if (e.permit) {
+                e = { ...e, permit: false, element: (0, jsx_runtime_1.jsx)(react_router_dom_1.Navigate, { to: "/" + prefix + "/" + findRouter?.authPath || "" }) };
+            }
+            return e;
+        });
+    }
+    // add prefix with basename prefix
+    if (prefix === findRouter.basename) {
+        result = addingPrefix(result, prefix);
+    }
+    // filter with level
+    if (levelOrLevel && typeof levelOrLevel === "function") {
+        result = filterLevelOrRole(result, levelOrLevel);
+    }
+    return { routers: result, layout: findRouter.layout };
+}
+function getBaseRouterWithPrefix(prefix, routers) {
+    let find = routers.find(e => e?.basename === prefix);
+    // default with index
+    if (!find)
+        find = routers.find(e => e?.index);
+    // create warning when not found 
+    if (!find)
+        console.warn(`routers basename ${prefix} not found will be define with index prop`);
+    return find;
+}
+function addingPrefix(router, prefix) {
+    let result = [];
+    for (let i = 0; i < router.length; i++) {
+        let route = router[i];
+        // add prefix if router path match with basename
+        if (prefix) {
+            if (route.index) {
+                const { index, ...less } = route;
+                route = { ...less, path: prefix };
+            }
+            else {
+                if (route.path === "*")
+                    route = { ...route, path: "*" };
+                else
+                    route = { ...route, path: prefix + (route?.path ? "/" + route.path : "") };
+            }
         }
+        result.push(route);
     }
     return result;
 }
-function getNotFoundRoute(result, idxPath, baserouters) {
-    return result.find((e) => e.path === idxPath)?.element || (_jsx(Navigate, { to: baserouters?.index ? `/${baserouters?.authPath}` : `/${baserouters?.basename}/${baserouters?.authPath}` }));
-}
+//# sourceMappingURL=permitRouter.js.map
